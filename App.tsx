@@ -5,7 +5,7 @@ import ChatWidget from './components/ChatWidget';
 import { SERVICES, FLEET, COMPANY_INFO, TESTIMONIALS } from './constants';
 import { 
   CheckCircle, Phone, ArrowRight, Shield, Clock, Award, Users, MapPin, 
-  Star, Calendar, CreditCard, Wrench, HelpCircle, Briefcase, ThumbsUp, ChevronLeft, ChevronRight
+  Star, Calendar, CreditCard, Wrench, HelpCircle, Briefcase, ThumbsUp, ChevronLeft, ChevronRight, Check
 } from 'lucide-react';
 
 // --- Page Components ---
@@ -679,6 +679,16 @@ const ContactPage: React.FC = () => {
 const BookingPage: React.FC = () => {
   const queryParams = new URLSearchParams(useLocation().search);
   const initialService = queryParams.get('service') || '';
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubmitted(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 800);
+  };
 
   return (
     <div className="bg-gray-50 min-h-screen py-12 md:py-20">
@@ -693,72 +703,91 @@ const BookingPage: React.FC = () => {
           </div>
           
           <div className="p-6 md:p-14">
-            <form className="space-y-6 md:space-y-8">
-              <div className="space-y-6">
-                <h3 className="text-lg font-serif font-bold text-gray-900 border-b border-gray-100 pb-3">Trip Details</h3>
-                
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Service Type</label>
-                  <select 
-                    defaultValue={initialService}
-                    className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue bg-white"
-                  >
-                    <option value="">Select a service...</option>
-                    {SERVICES.map(s => <option key={s.id} value={s.title}>{s.title}</option>)}
-                  </select>
+            {isSubmitted ? (
+              <div className="text-center py-12">
+                <div className="inline-flex p-4 rounded-full bg-green-50 text-green-600 mb-6">
+                  <Check size={48} />
                 </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Pickup Date</label>
-                    <input type="date" className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Pickup Time</label>
-                    <input type="time" className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue" />
-                  </div>
-                </div>
-
-                <div>
-                   <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Vehicle Preference (Optional)</label>
-                   <select className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue bg-white">
-                     <option value="">Any Vehicle</option>
-                     {FLEET.map(f => <option key={f.id} value={f.category}>{f.category} ({f.capacity})</option>)}
-                   </select>
-                </div>
-              </div>
-
-              <div className="space-y-6 pt-4 md:pt-8">
-                <h3 className="text-lg font-serif font-bold text-gray-900 border-b border-gray-100 pb-3">Your Contact Details</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Full Name</label>
-                    <input type="text" className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Phone Number</label>
-                    <input type="tel" className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue" />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Email Address</label>
-                  <input type="email" className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue" />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Additional Instructions</label>
-                  <textarea rows={3} className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue" placeholder="Flight Number, specific pickup location..."></textarea>
-                </div>
-              </div>
-
-              <div className="pt-6">
-                <button type="button" className="w-full bg-lad-blue text-white font-bold text-sm uppercase tracking-widest py-5 rounded-sm hover:bg-lad-dark transition-all shadow-lg">
-                  Submit Request
-                </button>
-                <p className="text-xs text-center text-gray-500 mt-6 font-light">
-                  Submitting this form does not guarantee a booking. Our team will contact you shortly to confirm availability and pricing.
+                <h2 className="text-2xl font-serif font-bold text-gray-900 mb-4">Request Received!</h2>
+                <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                  Thank you for your interest in LAD Brothers. Our team has received your request and will contact you shortly to confirm availability and pricing.
                 </p>
+                <button 
+                  onClick={() => setIsSubmitted(false)}
+                  className="bg-lad-blue text-white font-bold text-sm uppercase tracking-widest px-8 py-3 rounded-sm hover:bg-lad-dark transition-colors"
+                >
+                  Book Another Ride
+                </button>
               </div>
-            </form>
+            ) : (
+              <form className="space-y-6 md:space-y-8" onSubmit={handleSubmit}>
+                <div className="space-y-6">
+                  <h3 className="text-lg font-serif font-bold text-gray-900 border-b border-gray-100 pb-3">Trip Details</h3>
+                  
+                  <div>
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Service Type</label>
+                    <select 
+                      defaultValue={initialService}
+                      className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue bg-white"
+                      required
+                    >
+                      <option value="">Select a service...</option>
+                      {SERVICES.map(s => <option key={s.id} value={s.title}>{s.title}</option>)}
+                    </select>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                    <div>
+                      <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Pickup Date</label>
+                      <input type="date" className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue" required />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Pickup Time</label>
+                      <input type="time" className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue" required />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Vehicle Preference (Optional)</label>
+                    <select className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue bg-white">
+                      <option value="">Any Vehicle</option>
+                      {FLEET.map(f => <option key={f.id} value={f.category}>{f.category} ({f.capacity})</option>)}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="space-y-6 pt-4 md:pt-8">
+                  <h3 className="text-lg font-serif font-bold text-gray-900 border-b border-gray-100 pb-3">Your Contact Details</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                    <div>
+                      <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Full Name</label>
+                      <input type="text" className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue" required />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Phone Number</label>
+                      <input type="tel" className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue" required />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Email Address</label>
+                    <input type="email" className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue" required />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Additional Instructions</label>
+                    <textarea rows={3} className="w-full border-gray-300 rounded-sm shadow-sm border p-4 focus:ring-lad-blue focus:border-lad-blue" placeholder="Flight Number, specific pickup location..."></textarea>
+                  </div>
+                </div>
+
+                <div className="pt-6">
+                  <button type="submit" className="w-full bg-lad-blue text-white font-bold text-sm uppercase tracking-widest py-5 rounded-sm hover:bg-lad-dark transition-all shadow-lg">
+                    Submit Request
+                  </button>
+                  <p className="text-xs text-center text-gray-500 mt-6 font-light">
+                    Submitting this form does not guarantee a booking. Our team will contact you shortly to confirm availability and pricing.
+                  </p>
+                </div>
+              </form>
+            )}
           </div>
         </div>
 

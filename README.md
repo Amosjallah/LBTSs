@@ -1,20 +1,35 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# LAD Brothers Transport Services - Frontend
 
-# Run and deploy your AI Studio app
+This is the frontend application for LAD Brothers Transport Services, built with React, Vite, and Tailwind CSS. It is a single-page application (SPA) optimized for deployment on Vercel.
 
-This contains everything you need to run your app locally.
+## Features
+- Modern, responsive design using Tailwind CSS.
+- Service catalog and fleet showcase.
+- Contact and Booking forms (Client-side simulation).
+- AI Assistant powered by Google Gemini API.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1WYlp09ABQg0oecIZ3DSST_bePJTTU0ks
+## Project Structure
+- `src/`: Contains all frontend source code (components, pages, services).
+- `backend/`: (Optional/Deprecated) If present, this folder contains a reference backend implementation. **It is not used by the Vercel deployment** and can be safely ignored or deleted if you are only hosting the frontend.
 
-## Run Locally
+## Setup & Development
+1. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
+2. **Run Development Server:**
+   ```bash
+   npm run dev
+   ```
+3. **Build for Production:**
+   ```bash
+   npm run build
+   ```
 
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Deployment
+This project is configured for Vercel.
+- **Root Directory:** `./`
+- **Build Command:** `npm run build`
+- **Output Directory:** `dist`
+- **Environment Variables:**
+  - `API_KEY`: Your Google Gemini API Key.
